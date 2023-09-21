@@ -28,6 +28,11 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "permissions": [
+      "CAMERA",
+      "LOCATION",
+      "AUDIO_RECORDING"
+    ],
     "plugins":[
       [
         "expo-document-picker",
