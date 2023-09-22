@@ -5,7 +5,7 @@ import * as Sharing from 'expo-sharing'
 import * as FileSystem from 'expo-file-system'
 import * as DocumentPicker from 'expo-document-picker'
 import { StyleSheet } from 'react-native'
-export default function Home() {
+export default function databaseSqlite() {
     const [db, setdb] = useState(SQLite.openDatabase('rimsha.db'))
     const [Tempval, setTempVal] = useState("")
     const [importedData, setImportedData] = useState([]);

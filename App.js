@@ -1,13 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Home from './src/Home';
-import Camera from './src/Camera';
-
+import GoogleSigninExpo from './src/GoogleSigninExpo';
+// import Home from './src/Home';
+// import Camera from './src/Camera';
+// import databaseSqlite from './src/databaseSqlite';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Home/>
+      {/* <databaseSqlite/> */}
      {/* <Camera/> */}
+<GoogleSigninExpo/>
     </View>
   );
 }

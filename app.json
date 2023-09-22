@@ -16,14 +16,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "usesIcloudStorage":true,
-      "bundleIdentifier":"com.sqliteExample"
+      "usesIcloudStorage": true,
+      "bundleIdentifier": "com.sqliteExample"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sqliteExample"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,13 +35,16 @@
       "LOCATION",
       "AUDIO_RECORDING"
     ],
-    "plugins":[
+    "plugins": [
       [
         "expo-document-picker",
-        {
-          "icloudContainerEnvironment":"Development"
-        }
+        "@react-native-google-signin/google-signin"
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8ccc33ed-6a98-49f3-b25a-3cc3ec7b1a9d"
+      }
+    }
   }
 }
