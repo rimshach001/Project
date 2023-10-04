@@ -75,16 +75,16 @@ const GoogleSigninExpo = () => {
     
   }
   if(initializing)return null;
-  if(!user){
-    return(
-      <View style={{marginTop:200}}>
-        <Button
-        title="          Facebook Sign-In            " 
-        onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
-        />
-      </View>
-    )
-  }
+  // if(!user){
+  //   return(
+  //     <View style={{marginTop:200}}>
+  //       <Button
+  //       title="          Facebook Sign-In            " 
+  //       onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
+  //       />
+  //     </View>
+  //   )
+  // }
   return (
 
     <View style={styles.container}>

@@ -4,15 +4,13 @@ import GoogleSigninExpo from './src/GoogleSigninExpo';
 import AppNavigator from './src/Navigation';
 import { NavigationContainer } from '@react-navigation/native';
 import Camera from './src/Camera';
-// import Home from './src/Home';
-// import Camera from './src/Camera';
-// import databaseSqlite from './src/databaseSqlite';
+import OTP from './src/OTP';
 export default function App() {
   return (
     // <NavigationContainer>
     //   <AppNavigator/>
     // </NavigationContainer>
-    <Camera/>
+    <OTP/>
     );
   }
 
@@ -24,7 +22,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-{/* <databaseSqlite/> */}
-{/* <Camera/> */}
-{/* <GoogleSigninExpo/> */}
