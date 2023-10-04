@@ -8,3 +8,14 @@ eas build --profile development --platform android
 <!-- to run app -->
 npx expo start --dev-client
 <!-- scan qr code copy the text url and paste in builted app -->
+
+
+
+https://projectsigninexpo.firebaseapp.com/__/auth/handler
+
+
+{
+  "appID": "300745649319266",
+  "clientToken": "113e2d7c3bd40495c4ed5074f2243ea8",
+  "displayName": "Project"
+}

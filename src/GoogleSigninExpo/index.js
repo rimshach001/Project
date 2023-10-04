@@ -1,84 +1,43 @@
-import { View, Text, Alert } from 'react-native'
+import { View, Text, Alert, StyleSheet, Button } from 'react-native'
 import 'expo-dev-client'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
-import firebase from '@react-native-firebase/app';
 import React, { useState, useEffect } from 'react';
-// import {firestore, getDocs} from '@react-native-firebase/firestore'
-import { Firestore, collection, getDoc, getDocs, getFirestore } from '@firebase/firestore';
-import { initializeApp } from '@firebase/app';
-import { getAuth } from '@firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import auth ,{firebase} from '@react-native-firebase/auth';
+// import firebase from '../..    /config.js'
+// import { initializeAsync } from 'expo-facebook';
+import * as Facebook from 'expo-facebook';
+import { AccessToken,LoginManager } from 'react-native-fbsdk-next';
+import { signInWithCredential, FacebookAuthProvider, getAuth } from '@firebase/auth';
+// import * as Facebook from 'expo-facebook';
+import { app } from '../firebaseConfig';
 const GoogleSigninExpo = () => {
-  
-  const navigation=useNavigation()
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-  const [docData, setDocData] = useState({})
-  useEffect(() => {
-    console.log("okk");
-    const firebaseConfig = {
-      apiKey: 'AIzaSyCiE4sKqw8BX-g7j-lPSUvgNta0MmemRuI',
-      authDomain: 'projectsigninexpo.firebaseapp.com',
-      projectId: 'projectsigninexpo',
-      storageBucket: 'projectsigninexpo.appspot.com',
-      messagingSenderId: '889678013137',
-      appId: '1:889678013137:android:003638645af4581c645bf0',
-      // databaseURL: 'https://console.firebase.google.com/u/0/project/projectsigninexpo/database/projectsigninexpo-default-rtdb/data/~2F'
-    };
-    const app = initializeApp(firebaseConfig)
-    console.log(app, "okkkkk");
-
-    const db = getFirestore(app)
-    console.log(db, "db");
-    try {
-
-      const collect = collection(db, 'email');
-      getDocs(collect)
-        .then((query) => {
-          console.log('Total users: ', query.size);
-          query.forEach((doc) => {
-            console.log('User ID: '
-              // , doc.id
-              , doc.data());
-            setDocData(doc.data())
-          });
-        })
-        .catch((error) => {
-          console.error('Error fetching users:', error);
-        });
-    } catch (error) {
-      console.log("get collection", error);
-    }
-    // if (!firestore.apps.length) {
-    //   firestore.initializeApp();
-    // }
-    const user = auth().currentUser;
-
-    if (user) {
-      const email = user.displayName;
-      console.log('User email:', email);
-
-
-    } else {
-      console.log('User not signed in.');
-    }
-
-  }, [])
-
+  const [initializing, setInitializing]=useState(true)
+  const [user,setUser]=useState()
+  const navigation = useNavigation()
   GoogleSignin.configure({
     webClientId: '889678013137-c6opqf0t922ca231fi0j0lf782t50qs8.apps.googleusercontent.com',
   });
-  // function onAuthStateChanged(user) {
-  //     setUser(user);
-  //     if (initializing) setInitializing(false);
-  // }
-
   // useEffect(() => {
-  //     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
-  //     return subscriber;
+  //   async function initializeFacebook() {
+  //     try{
+  //      await Facebook.initializeAsync({ appId: '300745649319266' ,appName:'Project'});
+  //     }
+  //     catch(e){
+  //       console.log(e,"erorrrr");
+  //     }
+  //   }
+  //   initializeFacebook();
   // }, []);
+  function onAuthStateChanged(user) {
+    setUser(user);
+    if(initializing) setInitializing(false);
+  }
 
+  useEffect(() => {
+    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
   const onGoogleButtonPress = async () => {
     try {
       await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
@@ -99,23 +58,64 @@ const GoogleSigninExpo = () => {
     }
   };
 
-  // if (initializing) return null;
-  // if (!user) {
-  //     return (
-  //       <View>
-  //         <Text>Login</Text>
-  //       </View>
-  //     );
-  //   }
+  const onFacebookButtonPress=async()=> {
+    // Attempt login with permissions
+    // try{
+
+      await LoginManager.logInWithPermissions(['public_profile']);
+      const data = await AccessToken.getCurrentAccessToken();
+      if(!data){
+        return;
+      }
+    const auth=getAuth(app)
+    // Create a Firebase credential with the AccessToken
+    const facebookCredential = FacebookAuthProvider.credential(data.accessToken);
+    const user=await signInWithCredential(auth,facebookCredential)
+    console.log(user,"user fb");
+    
+  }
+  if(initializing)return null;
+  if(!user){
+    return(
+      <View style={{marginTop:200}}>
+        <Button
+        title="          Facebook Sign-In            " 
+        onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
+        />
+      </View>
+    )
+  }
   return (
-    <View>
-      <GoogleSigninButton
+
+    <View style={styles.container}>
+      <Text style={{ fontSize: 40, color: 'black', marginBottom: 50 }}>Welcome Home</Text>
+      <GoogleSigninButton 
         onPress={() => onGoogleButtonPress().then(() => console.log('Signed in with Google!'))}
-      />
-      <Text>{docData.email}</Text>
-      <Text>{docData.rollNo}</Text>
+        />
+      {/* <Button
+        title="          Facebook Sign-In            " 
+        onPress={() => onFacebookButtonPress().then(() => console.log('Signed in with Facebook!'))}
+        /> */}
     </View>
   )
 }
 
 export default GoogleSigninExpo
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#CBCBCC',
+    flex: 1
+  }
+});
+
+    // function onAuthStateChanged(user) {
+    //     setUser(user);
+    //     if (initializing) setInitializing(false);
+    // }
+    
+    // useEffect(() => {
+    //     const subscriber = auth().onAuthStateChanged(onAuthStateChanged)
+    //     return subscriber;
+    // }, []);

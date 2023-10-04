@@ -9,12 +9,16 @@ import GoogleSigninExpo from '../GoogleSigninExpo';
 const Stack = createStackNavigator();
 
 function AppNavigator() {
-  return (
-      <Stack.Navigator initialRouteName="Signin">
-        <Stack.Screen name="Signin" component={GoogleSigninExpo} />
-        <Stack.Screen name="GoogleLoginHome" component={GoogleLoginHome} />
-      </Stack.Navigator>
-  );
+    return (
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false
+            }}
+            initialRouteName="Signin">
+            <Stack.Screen name="Signin" component={GoogleSigninExpo} />
+            <Stack.Screen name="GoogleLoginHome" component={GoogleLoginHome} />
+        </Stack.Navigator>
+    );
 }
 
 export default AppNavigator;
