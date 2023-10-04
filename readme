@@ -3,6 +3,9 @@ Google login
 Database sqlite 
 Camera access
 gallery access
+firestore database
+OTP send on phone number
+
 
 *************To make a built and run *******************************8
 <!-- ---in terminal----- -->
